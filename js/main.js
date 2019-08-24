@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    displayTasks();
+
     $("#add-task-form").on("submit", (e) => {
         addTask(e);
     });
@@ -7,7 +9,10 @@ $(document).ready(() => {
        editTask(e);
     });
 
-    displayTasks();
+    $("#task-table").on("click", ".remove-task", function() {
+        id = $(this).data("id");
+        removeTask(id);
+    });
 });
 
 let tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -71,6 +76,19 @@ function editTask(e) {
     }
 }
 
+function removeTask(id) {
+    if(confirm("Are you sure you want to delete this task?")) {
+        let taskList = JSON.parse(localStorage.getItem("tasks"));
+        for(let i = 0; i < taskList.length; i++) {
+            if(taskList[i].id == id) {
+                taskList.splice(i, 1);
+            }
+        }
+        localStorage.setItem("tasks", JSON.stringify(taskList));
+        location.reload();
+    }
+}
+
 function inputAlert(inpt, e) {
     if(inpt.val() == "") {
         $("#alertText").text(capitalize(inpt.attr("id")) + " is required!");
@@ -100,7 +118,7 @@ function displayTasks() {
                                     "<td>" + value.taskDate + "</td>" +
                                     "<td>" + value.taskTime + "</td>" + 
                                     "<td><a href=\"edit.html?id=" + value.id + "\">Edit</a> | " +
-                                    "<a href=\"#\">Remove</a></td>" +
+                                    "<a href=\"index.html\" class=\"remove-task\" data-id=\"" + value.id + "\">Remove</a></td>" +
                                     "</tr>");
         });
     }
