@@ -9,9 +9,14 @@ $(document).ready(() => {
        editTask(e);
     });
 
+    // For some reason lambda expression doesn't work here?
     $("#task-table").on("click", ".remove-task", function() {
         id = $(this).data("id");
         removeTask(id);
+    });
+
+    $("#clear").on("click", () => {
+        clearAllTasks();
     });
 });
 
@@ -85,6 +90,13 @@ function removeTask(id) {
             }
         }
         localStorage.setItem("tasks", JSON.stringify(taskList));
+        location.reload();
+    }
+}
+
+function clearAllTasks() {
+    if(confirm("Are you sure you want to delete all tasks?")) {
+        localStorage.clear();
         location.reload();
     }
 }
