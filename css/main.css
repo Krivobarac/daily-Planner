@@ -1,3 +1,8 @@
 body {
   padding-top: 50px;
 }
+
+#alertText {
+  color: red;
+  margin-left: 10px;
+}
